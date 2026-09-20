@@ -1,0 +1,1066 @@
+@import "tailwindcss";
+
+/* ========================================================
+   ملاحظة التجاوب (Responsive) - Mobile First
+   نقاط الكسر: 480px / 768px / 1024px / 1440px
+   - أقل من 1024px : الصفحة تتمرّر عمودياً فقط (بدون تمرير أفقي) والمحتوى يُرتّب عمودياً
+   - من 1024px وأكثر : لوحتان جنباً إلى جنب + 3 أعمدة للأقسام
+   - وضع الشاشة الكاملة (اللابتوب/التلفزيون): 1024px عرض × 620px ارتفاع وأكثر بالوضع الأفقي
+   ======================================================== */
+
+:root {
+  /* الخط الموحد لكل الصفحات (نفس خط الصفحة الرئيسية) */
+  --font-main: 'Amiri', serif;
+  font-family: var(--font-main);
+  color: #F8F6F0;
+  background: #09090B;
+  --primary-red: #A81B2B;
+  --primary-red-glow: rgba(168, 27, 43, 0.4);
+  --gold-primary: #F3C669;
+  --gold-glow: rgba(243, 198, 105, 0.35);
+  --gold-gradient: linear-gradient(135deg, #FFF4D0 0%, #E8B653 45%, #C28723 100%);
+  --panel-bg: rgba(18, 18, 22, 0.88);
+  --border-subtle: rgba(248, 246, 240, 0.12);
+  --border-gold: rgba(232, 182, 83, 0.35);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+  font-family: var(--font-main);
+}
+
+/* أي عنصر قابل للضغط يكون بحجم مريح للمس (44px على الأقل) */
+button,
+a[href],
+[role="button"],
+input:not([type="hidden"]),
+select {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden; /* لا تمرير أفقي أبداً */
+  background: #09090B;
+  direction: rtl;
+  user-select: none;
+}
+
+.menu-board,
+.screen-transition,
+.screen {
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  position: relative;
+}
+
+/* حركة الانتقال (scale) ما تعمل أي عرض زائد خارج الشاشة */
+.menu-board {
+  overflow-x: hidden;
+  overflow-x: clip;
+}
+
+/* حركة تنقل سلسة وسريعة */
+.screen-transition {
+  animation: fastIn 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+@keyframes fastIn {
+  from {
+    opacity: 0;
+    transform: scale(1.006);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.screen {
+  background: #09090B;
+  padding: clamp(0.875rem, 2.5vw, 2.25rem) clamp(0.875rem, 4vw, 4.25rem);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ========================================================
+   الشاشة الرئيسية (مطابقة للصورة المرجعية الفخمة: لوجو + نص + صورة بدون عجقة وبدون تعتيم)
+   ======================================================== */
+.welcome-screen {
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  position: relative;
+  overflow: hidden;
+  background: #090807;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem 0.875rem;
+}
+
+/* الصورة الفخمة النقية عالية الدقة بدون أي نصوص مسبقة عليها وبدون تعتيم */
+.welcome-bg-image {
+  position: absolute;
+  inset: 0;
+  background-position: center right;
+  background-size: cover;
+  opacity: 1 !important;
+  filter: saturate(1.12) contrast(1.05);
+}
+
+/* المحتوى الترحيبي الفخم: بالموبايل والتابلت بالنص، وباللابتوب والشاشات الكبيرة على الجهة المقابلة لصحن المشاوي */
+.welcome-hero-content {
+  position: relative;
+  z-index: 10;
+  width: min(100%, 36.25rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: clamp(1.25rem, 5vw, 3rem) clamp(1rem, 4vw, 2.5rem);
+  background: radial-gradient(ellipse at center, rgba(12, 10, 8, 0.78) 0%, rgba(12, 10, 8, 0.45) 70%, transparent 100%);
+  border-radius: 30px;
+}
+
+.welcome-logo-box {
+  position: relative;
+  width: clamp(4.5rem, 22vw, 6.5625rem);
+  height: clamp(4.5rem, 22vw, 6.5625rem);
+  border-radius: 50%;
+  margin-bottom: 1rem;
+}
+
+.welcome-logo-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2.5px solid var(--gold-primary);
+  box-shadow: 0 0 25px rgba(243, 198, 105, 0.45);
+}
+
+.welcome-logo-ring {
+  position: absolute;
+  inset: -7px;
+  border: 1px dashed rgba(243, 198, 105, 0.6);
+  border-radius: 50%;
+}
+
+.welcome-golden-rule {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 75%;
+  margin: 0.5rem 0;
+}
+
+.rule-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
+}
+
+.rule-icon {
+  color: var(--gold-primary);
+  font-size: 0.9375rem;
+  text-shadow: 0 0 10px var(--gold-glow);
+}
+
+.welcome-main-title {
+  margin: 0.625rem 0 0.375rem;
+  font-size: clamp(2.125rem, 8vw, 3rem);
+  font-weight: 700;
+  background: var(--gold-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.9));
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+
+.welcome-tagline-wrap {
+  margin: 0.625rem 0 0.875rem;
+  max-width: 100%;
+}
+
+.welcome-tagline-text {
+  display: inline-block;
+  font-size: clamp(1.5rem, 5vw, 1.875rem);
+  font-weight: 800;
+  color: #FFF;
+  text-shadow: 0 0 22px rgba(255, 107, 107, 0.65), 0 3px 10px #000;
+  background: linear-gradient(90deg, #FFE8E8, #FFBDBD);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.welcome-sub-greeting {
+  margin: 0.75rem 0 0;
+  font-size: clamp(1.125rem, 3vw, 1.375rem);
+  color: var(--gold-primary);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+}
+
+/* ========================================================
+   الشعار الموحد في الهيدر
+   ======================================================== */
+.brand-mark {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.mark-ring {
+  width: clamp(2.75rem, 8vw, 3.625rem);
+  height: clamp(2.75rem, 8vw, 3.625rem);
+  border-radius: 50%;
+  background-image: url('/images/opt/logo.webp');
+  background-size: cover;
+  background-position: center;
+  border: 2px solid var(--gold-primary);
+  box-shadow: 0 0 14px rgba(243, 198, 105, 0.35);
+  flex-shrink: 0;
+}
+
+.mark-copy strong {
+  font-size: clamp(1rem, 4.5vw, 1.1875rem);
+  font-weight: 800;
+  color: #FFF;
+  display: block;
+  line-height: 1.1;
+}
+
+.mark-copy span {
+  font-size: 0.75rem;
+  color: var(--gold-primary);
+  font-weight: 600;
+}
+
+.brand-mark--compact .mark-ring {
+  width: clamp(2.5rem, 7vw, 3.375rem);
+  height: clamp(2.5rem, 7vw, 3.375rem);
+}
+
+/* ========================================================
+   رأس الصفحة المرجعي الفاخر (Header)
+   ======================================================== */
+.signage-header-ref {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 0.75rem;
+  padding-bottom: 0.875rem;
+  margin-bottom: 0.875rem;
+  border-bottom: 1px solid rgba(243, 198, 105, 0.2);
+  flex-shrink: 0;
+}
+
+.header-ref-right {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.625rem, 3vw, 1rem);
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.header-ref-titles {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.header-ref-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--gold-primary);
+  letter-spacing: 0.04em;
+  margin-bottom: 0.125rem;
+}
+
+.header-ref-title {
+  margin: 0;
+  font-size: clamp(1.75rem, 3vw, 2.75rem);
+  font-weight: 900;
+  color: #FFF;
+  line-height: 1.1;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+  overflow-wrap: break-word;
+}
+
+.header-ref-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.section-pill-tag {
+  background: var(--primary-red);
+  color: #FFF;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 0.1875rem 0.75rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(168, 27, 43, 0.5);
+  white-space: nowrap;
+}
+
+.tax-notice-tag {
+  font-size: 0.6875rem;
+  color: rgba(248, 246, 240, 0.6);
+  font-weight: 600;
+}
+
+/* ========================================================
+   شاشة القائمة الفاخرة المطابقة للصورة المرجعية
+   ======================================================== */
+.category-signage-screen {
+  background: radial-gradient(circle at 75% 25%, #1F0A0E 0%, #111114 45%, #08080A 85%);
+  padding-bottom: 0.875rem;
+}
+
+/* موبايل وتابلت: لوحة القائمة ثم اللوحة المرئية بعمود واحد */
+.signage-body-ref {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(0.875rem, 2.5vw, 2.5rem);
+  flex: 1;
+  min-width: 0;
+}
+
+/* لوحة قائمة الأصناف والأسعار والإضافات */
+.signage-menu-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--border-gold);
+  border-radius: 20px;
+  padding: clamp(1rem, 1.8vw, 1.5rem) clamp(0.875rem, 2.2vw, 1.875rem);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(14px);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.menu-panel-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(243, 198, 105, 0.15);
+}
+
+.menu-panel-heading h3 {
+  margin: 0;
+  font-size: clamp(1.0625rem, 4.5vw, 1.375rem);
+  font-weight: 800;
+  color: var(--gold-primary);
+}
+
+.panel-rule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(243, 198, 105, 0.4), transparent);
+}
+
+.menu-columns-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+/* أكثر من 6 أصناف: عمود واحد على الموبايل، عمودين من 768px */
+.menu-columns-wrap--dual {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.5rem;
+}
+
+.menu-column-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0.375rem;
+  min-width: 0;
+}
+
+/* سطر الصنف: نقطة ملونة + اسم الصنف + إضافة/شارة + نقاط متصلة + السعر */
+.menu-item-row {
+  display: flex;
+  align-items: center;
+  padding: 0.25rem 0.375rem;
+  border-radius: 8px;
+  transition: background 0.15s ease;
+  min-width: 0;
+}
+
+.menu-item-row:hover {
+  background: rgba(243, 198, 105, 0.06);
+}
+
+.item-name-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.5rem;
+  min-width: 0;
+}
+
+.item-dot-bullet {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--primary-red);
+  box-shadow: 0 0 6px var(--primary-red-glow);
+  flex-shrink: 0;
+}
+
+.item-name-text {
+  font-size: clamp(0.875rem, 3.8vw, 1.0625rem);
+  font-weight: 800;
+  color: #FFF;
+  overflow-wrap: break-word;
+  min-width: 0;
+}
+
+/* الإضافات والشارات الرمادية الفخمة العائدة من التصميم الأصلي */
+.item-badge-note {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: #D1CFCA;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1px 0.4375rem;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+/* النقاط المتصلة */
+.item-leader-dots {
+  flex: 1 1 0;
+  border-bottom: 2px dotted rgba(248, 246, 240, 0.22);
+  margin: 0 0.5rem;
+  min-width: 0.75rem;
+}
+
+.item-price-badge {
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.price-number {
+  font-size: clamp(1.25rem, 5vw, 1.5rem);
+  font-weight: 800;
+  color: var(--gold-primary);
+  line-height: 1;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.price-shekel {
+  font-size: 0.8125rem;
+  font-weight: 800;
+  color: var(--primary-red);
+}
+
+/* ========================================================
+   اللوحة المرئية: صورة القسم + بطاقة إضاءة خاصة (Special Focus)
+   ======================================================== */
+.signage-visual-panel {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.75rem, 2vw, 0.875rem);
+  min-width: 0;
+}
+
+/* الصورة العلوية الكبيرة: نسبة ثابتة بحيث تبين كاملة وواضحة */
+.visual-hero-card {
+  position: relative;
+  flex: none;
+  aspect-ratio: 16 / 10;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--border-gold);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.7);
+  min-height: 0;
+}
+
+.visual-hero-img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(1.1) contrast(1.05);
+}
+
+.visual-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(8, 8, 10, 0.85) 0%, transparent 45%);
+}
+
+.visual-hero-badge {
+  position: absolute;
+  top: 0.875rem;
+  right: 0.875rem;
+  background: var(--primary-red);
+  color: #FFF;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 0.25rem 0.875rem;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.visual-hero-caption {
+  position: absolute;
+  bottom: 0.75rem;
+  right: 1rem;
+  left: 1rem;
+  margin: 0;
+  font-size: clamp(0.8125rem, 3.4vw, 0.9375rem);
+  font-weight: 700;
+  color: #FFF;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
+}
+
+/* بطاقة إضاءة خاصة / الطبق المميز المستوحاة من الصورة المرجعية تماماً */
+.special-focus-card {
+  flex: none;
+  background: linear-gradient(135deg, rgba(28, 20, 22, 0.95) 0%, rgba(16, 14, 16, 0.95) 100%);
+  border: 1px solid var(--border-gold);
+  border-radius: 18px;
+  padding: 0.75rem clamp(0.875rem, 3vw, 1.125rem);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 25px rgba(232, 182, 83, 0.12);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+
+.focus-header {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin-bottom: 0.5rem;
+}
+
+.focus-star {
+  color: var(--gold-primary);
+  font-size: 0.8125rem;
+}
+
+.focus-header h4 {
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 800;
+  color: var(--gold-primary);
+}
+
+.focus-content {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 3vw, 1rem);
+}
+
+.focus-image-wrapper {
+  position: relative;
+  width: clamp(3.75rem, 18vw, 4.6875rem);
+  height: clamp(3.75rem, 18vw, 4.6875rem);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.focus-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--gold-primary);
+  box-shadow: 0 0 16px rgba(243, 198, 105, 0.4);
+}
+
+.focus-ring {
+  position: absolute;
+  inset: -4px;
+  border: 1px dashed rgba(243, 198, 105, 0.5);
+  border-radius: 50%;
+}
+
+.focus-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  min-width: 0;
+}
+
+.focus-details h5 {
+  margin: 0;
+  font-size: clamp(0.9375rem, 4.2vw, 1.1875rem);
+  font-weight: 800;
+  color: #FFF;
+  overflow-wrap: break-word;
+}
+
+.focus-details p {
+  margin: 0;
+  font-size: clamp(0.75rem, 3.2vw, 0.8125rem);
+  color: #CCC7BC;
+  line-height: 1.3;
+}
+
+.focus-price-tag {
+  display: flex;
+  align-items: baseline;
+  gap: 0.375rem;
+  margin-top: 0.25rem;
+}
+
+.focus-price-tag span {
+  font-size: 0.6875rem;
+  color: var(--gold-primary);
+}
+
+.focus-price-tag strong {
+  font-size: 1rem;
+  font-weight: 900;
+  color: #FFF;
+  background: var(--primary-red);
+  padding: 1px 0.5rem;
+  border-radius: 6px;
+}
+
+/* ========================================================
+   شريط التذييل الفاخر العائد
+   ======================================================== */
+.signage-footer-ref {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.875rem;
+  padding-top: 0.625rem;
+  border-top: 1px solid rgba(243, 198, 105, 0.15);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: #D6D2C4;
+  flex-shrink: 0;
+}
+
+.footer-dot {
+  color: var(--primary-red);
+  font-weight: 900;
+}
+
+/* ========================================================
+   شاشة الأقسام الخمسة (Categories Grid)
+   ======================================================== */
+/* رأس صفحة الأقسام: الشعار + "قائمة الطعام" + "أقسام المنيو" (محاذاة لليمين، نفس تباعد وخط رأس بقية الصفحات) */
+.signage-header-clean {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+  padding-bottom: 0.875rem;
+  margin-bottom: 0.875rem;
+  border-bottom: 1px solid rgba(243, 198, 105, 0.2);
+  flex-shrink: 0;
+}
+
+.header-category-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.375rem;
+  text-align: right;
+  min-width: 0;
+}
+
+.header-category-badge {
+  font-size: clamp(0.875rem, 1.15vw, 1.1875rem);
+  font-weight: 700;
+  color: var(--gold-primary);
+  letter-spacing: 0.04em;
+  line-height: 1.3;
+}
+
+.header-category-title {
+  margin: 0;
+  font-size: clamp(1.75rem, 3vw, 2.75rem);
+  font-weight: 700;
+  color: #FFF;
+  line-height: 1.3;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+  overflow-wrap: break-word;
+}
+
+/* موبايل صغير: عمود واحد */
+.categories-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(0.75rem, 2vw, 1rem);
+  align-content: start;
+  flex: 1;
+  min-width: 0;
+}
+
+.category-tile {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  border-radius: 18px;
+  border: 1px solid var(--border-gold);
+  background: #141416;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  min-width: 0;
+}
+
+.category-tile img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(1.1);
+}
+
+.tile-shade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 34%;
+  pointer-events: none;
+  background: linear-gradient(0deg, rgba(8, 8, 8, 0.6) 0%, rgba(8, 8, 8, 0) 100%);
+}
+
+.tile-number {
+  position: absolute;
+  top: clamp(0.5rem, 2.5vw, 0.875rem);
+  left: clamp(0.5rem, 2.5vw, 0.875rem);
+  color: var(--gold-primary);
+  font-size: 0.9375rem;
+  font-weight: 800;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 0.25rem 0.625rem;
+  border-radius: 10px;
+  border: 1px solid rgba(243, 198, 105, 0.3);
+}
+
+.tile-content {
+  position: absolute;
+  bottom: clamp(0.625rem, 3vw, 1.125rem);
+  right: clamp(0.625rem, 3vw, 1.125rem);
+  left: clamp(0.625rem, 3vw, 1.125rem);
+  z-index: 2;
+}
+
+.tile-badge {
+  display: inline-block;
+  background: var(--primary-red);
+  color: #FFF;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  padding: 0.1875rem 0.625rem;
+  border-radius: 6px;
+  margin-bottom: 0.375rem;
+  max-width: 100%;
+}
+
+.tile-content h3 {
+  margin: 0 0 0.375rem;
+  font-size: clamp(1.125rem, 5vw, 1.5rem);
+  font-weight: 800;
+  color: #FFF;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.85);
+  overflow-wrap: break-word;
+}
+
+.tile-accent {
+  display: block;
+  width: 1.875rem;
+  height: 3px;
+  background: var(--gold-primary);
+  margin-top: 0.5rem;
+  border-radius: 2px;
+}
+
+/* ========================================================
+   شريط التقدم السفلي السريع
+   ======================================================== */
+.progress {
+  height: 4px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.08);
+  z-index: 100;
+}
+
+.progress span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-red), var(--gold-primary));
+  animation: fill linear forwards;
+  box-shadow: 0 0 10px var(--gold-primary);
+}
+
+@keyframes fill {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+/* ========================================================
+   نقطة الكسر 480px: موبايل كبير
+   ======================================================== */
+@media (min-width: 480px) {
+  /* عمودين للأقسام */
+  .categories-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .category-tile {
+    aspect-ratio: 4 / 3;
+  }
+
+  .tile-content h3 {
+    font-size: clamp(1.0625rem, 3.2vw, 1.5rem);
+  }
+}
+
+/* ========================================================
+   نقطة الكسر 768px: تابلت
+   ======================================================== */
+@media (min-width: 768px) {
+  .welcome-main-title {
+    font-size: clamp(2.625rem, 4.6vw, 4.375rem);
+  }
+
+  .welcome-tagline-text {
+    font-size: clamp(1.5rem, 2.5vw, 2.375rem);
+  }
+
+  .welcome-sub-greeting {
+    font-size: clamp(1.125rem, 1.6vw, 1.5rem);
+  }
+
+  /* قائمة الأصناف الطويلة بعمودين */
+  .menu-columns-wrap--dual {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(0.75rem, 1.8vw, 1.5rem);
+  }
+
+  .menu-panel-heading h3 {
+    font-size: clamp(1rem, 1.4vw, 1.375rem);
+  }
+
+  .price-number {
+    font-size: clamp(1.25rem, 1.7vw, 1.75rem);
+  }
+
+  .visual-hero-card {
+    aspect-ratio: 16 / 9;
+  }
+
+  .visual-hero-caption {
+    font-size: clamp(0.75rem, 1.05vw, 0.9375rem);
+  }
+
+  .focus-details h5 {
+    font-size: clamp(0.9375rem, 1.25vw, 1.1875rem);
+  }
+
+  .focus-details p {
+    font-size: clamp(0.75rem, 0.9vw, 0.8125rem);
+  }
+
+  .header-ref-eyebrow {
+    font-size: 0.8125rem;
+  }
+}
+
+/* ========================================================
+   نقطة الكسر 1024px: لابتوب
+   لوحتان جنباً إلى جنب + 3 أعمدة للأقسام
+   ======================================================== */
+@media (min-width: 1024px) {
+  /* الشاشة الرئيسية: المحتوى على الجهة المقابلة لصحن المشاوي */
+  .welcome-screen {
+    justify-content: flex-start;
+    padding: 0;
+  }
+
+  .welcome-hero-content {
+    width: min(36.25rem, 48vw);
+    margin-right: auto;
+    margin-left: clamp(2rem, 6vw, 6.25rem);
+    padding: clamp(1.75rem, 3.5vw, 3rem) clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .welcome-tagline-wrap {
+    margin: 0.625rem 0 0.875rem;
+  }
+
+  /* قائمة الأصناف | اللوحة المرئية */
+  .signage-body-ref {
+    grid-template-columns: 1.32fr 1fr;
+  }
+
+  /* اللوحتان تتوزعان حسب محتواهما (نفس سلوك التصميم الأصلي) */
+  .signage-menu-panel,
+  .signage-visual-panel,
+  .menu-column-block {
+    min-width: auto;
+  }
+
+  .signage-visual-panel {
+    align-self: start;
+  }
+
+  /* اسم الصنف والشارة بسطر واحد */
+  .item-name-group {
+    flex-wrap: nowrap;
+  }
+
+  .item-name-text {
+    font-size: clamp(0.8125rem, 1.1vw, 1.0625rem);
+    white-space: nowrap;
+  }
+
+  .item-badge-note {
+    font-size: 0.625rem;
+  }
+
+  /* ثلاثة أعمدة للأقسام */
+  .categories-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .tile-content h3 {
+    font-size: clamp(1.125rem, 1.4vw, 1.5rem);
+  }
+
+  .header-ref-eyebrow {
+    font-size: 0.75rem;
+  }
+}
+
+/* ========================================================
+   وضع الشاشة الكاملة (لابتوب/شاشات كبيرة/تلفزيون): 1024px × 620px وأكثر بالوضع الأفقي
+   الصفحة تملأ الشاشة بالضبط بدون تمرير (نفس تصميم لوحة العرض الأصلي)
+   ======================================================== */
+@media (min-width: 1024px) and (min-height: 620px) and (min-aspect-ratio: 1/1) {
+  body {
+    overflow: hidden;
+  }
+
+  .menu-board,
+  .screen-transition,
+  .screen {
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  .welcome-screen {
+    height: 100vh;
+    height: 100dvh;
+  }
+
+  .signage-body-ref {
+    min-height: 0;
+  }
+
+  .signage-menu-panel {
+    min-height: 0;
+  }
+
+  .menu-columns-wrap {
+    justify-content: space-evenly;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .menu-columns-wrap--dual {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .menu-column-block {
+    justify-content: space-evenly;
+  }
+
+  .signage-visual-panel {
+    align-self: stretch;
+    min-height: 0;
+  }
+
+  .visual-hero-card {
+    flex: 1.35;
+    aspect-ratio: auto;
+  }
+
+  .special-focus-card {
+    flex: 0.85;
+  }
+
+  /* الأقسام: شبكة 3 × 2 تملأ ارتفاع الشاشة */
+  .categories-grid {
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    align-content: stretch;
+    min-height: 0;
+  }
+
+  .category-tile {
+    aspect-ratio: auto;
+  }
+}
+
+/* ========================================================
+   نقطة الكسر 1440px: شاشات كبيرة (1920px وأكثر)
+   كل الأحجام بوحدات rem فتكبر بنفس النسبة بدون ما يتغيّر شكل 1920×1080
+   ======================================================== */
+@media (min-width: 1440px) {
+  :root {
+    font-size: clamp(16px, 0.8334vw, 48px);
+  }
+}
